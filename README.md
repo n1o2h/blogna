@@ -5,7 +5,7 @@
 
 ### **Jour 1 : Fondamentaux**
 
-** Concepts Clés :**
+### ** Concepts Clés :**
 - **Framework vs Bibliothèque** : Différence philosophique - Framework impose une structure, bibliothèque offre flexibilité
 - **Frameworks PHP populaires** : Laravel, Symfony, CodeIgniter
 
@@ -29,10 +29,11 @@ Création d'une **To-Do List** avec commandes Laravel pour comprendre le flux co
 - Syntaxe élégante et puissante pour les vues
 
 ### ** Packages Installés**
-```
-Breeze    # Authentification complète
-Spatie    # Gestion rôles & permissions
-```
+
+- **Breeze**    # Authentification complète
+- **Spatie**    # Gestion rôles & permissions
+
+
 
 ### ** Docker**
 - Installation et configuration Docker
@@ -43,3 +44,4 @@ Spatie    # Gestion rôles & permissions
 - Sessions `.env` (database → file pour local)
 - `viteManifest not found`
 
+```
