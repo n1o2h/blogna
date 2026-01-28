@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -11,15 +13,23 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Categorie::paginate(3);
+        return view('categories.accueil', compact('categories'));
     }
+    public  function all()
+    {
+        $categories = Categorie::all();
+        return view('categories.accueil', compact('categories'));
+
+    }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -27,7 +37,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $categorieValidated = $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'nullable',
+            ]);
+            Categorie::create($categorieValidated);
+            echo "yes";
+        }catch (ValidationException $e)
+        {
+            echo $e->getMessage();
+        }
+        //var_dump($categorieValidated);
+
+
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -35,7 +59,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        Categorie::find($id);
     }
 
     /**

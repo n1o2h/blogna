@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('accueil');
+Route::get('/aa', function () {
+    return view('categories.create');
 });
 
 /*  for user */
@@ -13,8 +16,7 @@ Route::get('/posts/plus', [PostController::class, 'paginate']);
 
 /* for Admin */
 
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/plus', [CategoryController::class, 'paginate']);
+//Route::get('/categories/all', [CategoryController::class, 'all']);
 Route::resource('categories', CategoryController::class);
 Route::resource('posts', PostController::class);
 Route::resource('tags', TagController::class);
