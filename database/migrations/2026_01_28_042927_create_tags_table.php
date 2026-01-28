@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id('id');
+            $table->string('nom');
+            $table->timestamps();
+            $table->engine = 'InnoDB';
+        });
     }
 
     /**
@@ -19,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('tags');
     }
 };

@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id('id');
+            $table->foreignId('categorie_id')->constrained('categories');
+            $table->string('title');
+            $table->text('contenu');
+            $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->engine = 'InnoDB';
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('posts');
     }
 };
