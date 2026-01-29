@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -11,7 +12,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -19,7 +21,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -27,7 +29,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedPost =$request->validate([
+            'title' => 'required|max:255',
+            'contenu' => 'required|max:255',
+            'image' => 'nullable',
+            'categorie_id' => 'required',
+        ]);
+        Post::create($validatedPost);
+
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -41,24 +51,28 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $post->update($request);
+        return redirect()->route('posts.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
+
     }
 }

@@ -27,10 +27,10 @@
         </button>
         <ul class="hidden md:inline-flex items-center">
             <li class="px-2 md:px-4">
-                <a href="/login" class="text-green-800 font-semibold hover:text-green-600"> Connexion </a>
+                <a href="{{route('posts.index')}}" class="text-green-800 font-semibold hover:text-green-600"> Voir Posts </a>
             </li>
             <li class="px-2 md:px-4">
-                <a href="/posts" class="text-gray-500 font-semibold hover:text-green-600"> Créer Un Post </a>
+                <a href="{{route('posts.create')}}" class="text-gray-500 font-semibold hover:text-green-600"> Créer Un Post </a>
             </li>
         </ul>
 
@@ -38,7 +38,7 @@
     <!-- header ends here -->
 
     <main class="mt-12">
-        <!-- featured sec               tion -->
+        <!-- featured section -->
         <div class="flex  md:flex-no-wrap space-x-0 md:space-x-6 mb-16">
             <!-- main post -->
 
@@ -80,16 +80,9 @@
                     </div>
                 </div>
                 @endforeach
-                <a href="{{route('categories.all')}}" class="bg-gray-200 hover:bg-green-200 text-gray-800 px-3 py-1 rounded cursor-pointer">
+                <a href="{{route('categories.index')}}" class="bg-gray-200 hover:bg-green-200 text-gray-800 px-3 py-1 rounded cursor-pointer">
                     View all
                 </a>
-
-                <!-- post 2 -->
-
-                <!-- post 3 -->
-
-                <!-- post 4 -->
-
 
             </div>
 

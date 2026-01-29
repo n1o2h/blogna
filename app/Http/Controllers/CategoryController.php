@@ -13,16 +13,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Categorie::paginate(3);
-        return view('categories.accueil', compact('categories'));
-    }
-    public  function all()
-    {
         $categories = Categorie::all();
         return view('categories.accueil', compact('categories'));
-
     }
-
+//    public  function all()
+//    {
+//        $categories = Categorie::all();
+//        return view('categories.accueil', compact('categories'));
+//
+//    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,46 +42,52 @@ class CategoryController extends Controller
                 'description' => 'nullable',
             ]);
             Categorie::create($categorieValidated);
-            echo "yes";
         }catch (ValidationException $e)
         {
             echo $e->getMessage();
         }
-        //var_dump($categorieValidated);
-
-
         return redirect()->route('categories.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Categorie $categorie)
     {
-        Categorie::find($id);
+
+        return view('categories.accueil', compact('categorie'));
+
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Categorie $categorie)
     {
-        //
+        return view('categories.edit', compact($categorie));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Categorie $categorie)
     {
-        //
+        $validatedCategorie = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+        ]);
+
+        $categorie->update($validatedCategorie);
+        return redirect()->route('categories.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Categorie $categorie)
     {
-        //
+        $categorie->delete();
+        return redirect()->route('categories.index');
     }
 }

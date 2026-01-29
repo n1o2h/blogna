@@ -10,15 +10,17 @@ Route::get('/aa', function () {
 });
 
 /*  for user */
-Route::get('/', [PostController::class, 'index']);
 Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/plus', [PostController::class, 'paginate']);
+Route::get('/posts/create', [PostController::class, 'create']);
+Route::post('/posts/store', [PostController::class, 'store']);
+Route::get('/posts/edit', [PostController::class, 'edit']);
+Route::post('/posts/update', [PostController::class, 'update']);
+Route::delete('/posts/delete', [PostController::class, 'destroy']);
 
 /* for Admin */
 
-//Route::get('/categories/all', [CategoryController::class, 'all']);
+
 Route::resource('categories', CategoryController::class);
-Route::resource('posts', PostController::class);
 Route::resource('tags', TagController::class);
 
 
