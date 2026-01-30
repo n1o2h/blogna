@@ -77,7 +77,7 @@ class CategoryController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
         ]);
-
+        $categorie->setRelation()
         $categorie->update($validatedCategorie);
         return redirect()->route('categories.index');
     }
