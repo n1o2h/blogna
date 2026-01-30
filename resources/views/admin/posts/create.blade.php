@@ -30,9 +30,9 @@
         <div>
             <label class="block text-sm font-medium mb-1">Tags</label>
             <div class="flex gap-4 text-sm bg-gray-50 p-3 rounded-lg">
-                <label><input type="checkbox" class="mr-1"> Laravel</label>
-                <label><input type="checkbox" class="mr-1"> PHP</label>
-                <label><input type="checkbox" class="mr-1"> Tailwind</label>
+                @foreach($tags as $tag)
+                    <label><input type="checkbox"  class="mr-1"> {{$tag->nom}}</label>
+                @endforeach
             </div>
         </div>
 

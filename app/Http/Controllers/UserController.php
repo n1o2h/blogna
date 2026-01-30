@@ -12,16 +12,18 @@ class UserController extends Controller
     public function index()
     {
         $categories = Categorie::paginate(3);
-        $posts = Post::all();
+        $posts = Post::with('categorie')->latest()->paginate(3);
         $tags = Tag::all();
-        return view('index', compact(['categories', 'posts', 'tags']));
+
+        return view('index', compact('categories', 'posts', 'tags'));
     }
 
     public function all()
     {
         $categories = Categorie::all();
-        $posts = Post::all();
+        $posts = Post::with('categorie');
         $tags = Tag::all();
-        return view('index', compact(['categories', 'posts', 'tags']));
+
+        return view('index', compact('categories', 'posts', 'tags'));
     }
 }
