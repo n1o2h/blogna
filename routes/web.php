@@ -3,17 +3,16 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 /* for user */
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/',[UserController::class, 'index']);
 /* for user */
 
 /* for Admin */
 
 /*  for posts */
-Route::get('/admin/index', [PostController::class, 'index']);
+Route::get('/admin', [PostController::class, 'index']);
 Route::get('/posts/create', [PostController::class, 'create']);
 Route::post('/posts/store', [PostController::class, 'store']);
 Route::get('/posts/edit', [PostController::class, 'edit']);
@@ -39,8 +38,10 @@ Route::delete('/tags/delete', [tagController::class, 'destroy']);
 
 /* for Admin */
 
-
+/**
 Route::resource('categories', CategoryController::class);
+ *
+ */
 
 
 

@@ -14,21 +14,15 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Categorie::all();
-        return view('categories.accueil', compact('categories'));
+        return view('/admin', compact('categories'));
     }
-//    public  function all()
-//    {
-//        $categories = Categorie::all();
-//        return view('categories.accueil', compact('categories'));
-//
-//    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('categories.create');
+        return view('/admin/categories/create');
     }
 
     /**
@@ -46,7 +40,7 @@ class CategoryController extends Controller
         {
             echo $e->getMessage();
         }
-        return redirect()->route('categories.index');
+        return redirect()->route('/admin/index');
     }
 
     /**
@@ -55,8 +49,7 @@ class CategoryController extends Controller
     public function show(Categorie $categorie)
     {
 
-        return view('categories.accueil', compact('categorie'));
-
+        return view('/admin/index', compact('categorie'));
 
     }
 
@@ -65,7 +58,7 @@ class CategoryController extends Controller
      */
     public function edit(Categorie $categorie)
     {
-        return view('categories.edit', compact($categorie));
+        return view('/admin/categories/edit', compact($categorie));
     }
 
     /**
@@ -77,9 +70,8 @@ class CategoryController extends Controller
             'title' => 'required|max:255',
             'description' => 'nullable',
         ]);
-        $categorie->setRelation()
         $categorie->update($validatedCategorie);
-        return redirect()->route('categories.index');
+        return redirect()->route('/admin/index');
     }
 
     /**
@@ -88,6 +80,6 @@ class CategoryController extends Controller
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
-        return redirect()->route('categories.index');
+        return redirect()->route('/admin/index');
     }
 }

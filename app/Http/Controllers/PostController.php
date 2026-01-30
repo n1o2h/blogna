@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        $categories = Categorie::all();
+        return view('/admin/index', compact(['posts', 'categories']));
     }
 
     /**
@@ -21,7 +23,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('/admin/posts/create');
     }
 
     /**
@@ -37,7 +39,7 @@ class PostController extends Controller
         ]);
         Post::create($validatedPost);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('/admin/posts');
     }
 
     /**
@@ -53,7 +55,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        return view('/admin,/posts/edit', compact('post'));
     }
 
     /**
@@ -62,7 +64,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $post->update($request);
-        return redirect()->route('posts.index');
+        return redirect()->route('/admin/posts');
 
     }
 
@@ -72,7 +74,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect()->route('/admin/posts');
 
     }
 }
