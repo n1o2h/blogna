@@ -10,7 +10,7 @@
 <div class="max-w-5xl mx-auto">
     <nav class="flex justify-between items-center mb-12">
         <h1 class="text-2xl font-black text-indigo-600">Blog Na</h1>
-        <a href="/admin" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Accès Admin →</a>
+        <a href="{{ route('admin.index') }}" class="text-sm font-medium text-gray-500 hover:text-indigo-600">Accès Admin →</a>
     </nav>
 
     <div class="mb-10 flex flex-col md:flex-row gap-4">
@@ -29,11 +29,13 @@
                 <div>
                     <span class="text-xs font-bold text-indigo-500 uppercase">{{$post->categorie->name }}</span>
                     <h2 class="text-xl font-bold mt-1">{{ $post->title  }}</h2>
-                    <p class="text-gray-500 text-sm mt-2">{{ $post->contenu }}</p>
+                    <p class="text-gray-500 text-sm mt-2">{{\Illuminate\Support\Str::words( $post->contenu, 30)}}</p>
                     <div class="mt-3 flex gap-2">
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-400">#PHP</span>
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-400">#Backend</span>
+                        @foreach($tags as $tag)
+                            <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-400">#{{$tag->nom}}</span>
+                        @endforeach
                     </div>
+                    <a href="{{route('users.all')}}" > voir plus</a>
                 </div>
             </div>
         @endforeach

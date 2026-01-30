@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -13,8 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $posts = Post::all();
         $categories = Categorie::all();
-        return view('/admin', compact('categories'));
+        return view('admin.index', compact(['posts', 'categories']));
     }
 
     /**
@@ -22,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('/admin/categories/create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -30,17 +32,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
             $categorieValidated = $request->validate([
                 'name' => 'required|max:255',
-                'description' => 'nullable',
+                'description' => 'required',
             ]);
             Categorie::create($categorieValidated);
-        }catch (ValidationException $e)
-        {
-            echo $e->getMessage();
-        }
-        return redirect()->route('/admin/index');
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -56,30 +53,39 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categorie $categorie)
+    public function edit( $categorie)
     {
-        return view('/admin/categories/edit', compact($categorie));
+        if($categorie){
+            $categorie = Categorie::find($categorie);
+        }
+        return view('admin.categories.edit', compact('categorie'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request,  $categorie)
     {
+        if($categorie){
+            $categorie = Categorie::find($categorie);
+        }
         $validatedCategorie = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
+            'name' => 'required|max:255',
+            'description' => 'required',
         ]);
         $categorie->update($validatedCategorie);
-        return redirect()->route('/admin/index');
+        return redirect()->route('admin.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy( $categorie)
     {
+        if($categorie){
+            $categorie = Categorie::find($categorie);
+        }
         $categorie->delete();
-        return redirect()->route('/admin/index');
+        return redirect()->route('admin.index');
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\Post;
+use App\Models\Tag;
+use Cassandra\TimestampGenerator\Monotonic;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,7 +17,8 @@ class PostController extends Controller
     {
         $posts = Post::all();
         $categories = Categorie::all();
-        return view('/admin/index', compact(['posts', 'categories']));
+        $tags = Tag::all();
+        return view('admin.index', compact(['posts', 'categories', 'tags']));
     }
 
     /**
@@ -23,7 +26,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('/admin/posts/create');
+        $categories = Categorie::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -31,50 +35,73 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedPost =$request->validate([
             'title' => 'required|max:255',
-            'contenu' => 'required|max:255',
+           'contenu' => 'required|max:255',
             'image' => 'nullable',
-            'categorie_id' => 'required',
+            'categorie_id' => 'required'
         ]);
-        Post::create($validatedPost);
-
-        return redirect()->route('/admin/posts');
+        #dd($validatedPost);
+        #$validatedPost['categorie_id'] =10;
+        $post = Post::create($validatedPost);
+        return to_route('admin.index')->with('message', 'Post Crée avec success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view('admin.posts.create', compact('post'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit( $id )
     {
-        return view('/admin,/posts/edit', compact('post'));
+        if($id){
+            $post = Post::find($id);
+        }else {
+            return  2;
+        }
+        $categories = Categorie::all();
+
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request,$post)
     {
-        $post->update($request);
-        return redirect()->route('/admin/posts');
+
+        $data =$request->validate([
+            'title' => 'required',
+            'contenu' => 'required',
+            'image' => 'nullable',
+            'categorie_id' => 'required'
+        ]);
+
+        if($post){
+            $post = Post::find($post);
+        }
+        $post->update($data);
+        return redirect()->route('admin.index')->with('message', 'Post est Modifier avec success');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($post)
     {
+        if($post){
+            $post = Post::find($post);
+        }
         $post->delete();
-        return redirect()->route('/admin/posts');
+        return to_route('admin.index')->with('message', 'Post est supprimer avec succes');
 
     }
 }
